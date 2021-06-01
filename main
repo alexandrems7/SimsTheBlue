@@ -7,6 +7,8 @@ from time import sleep
 personagem = Personagem()
 academia = Academia()
 relogio = Relogio()
+
+
 if(__name__ == "__main__"):
     while True:
         if personagem.dormir == True:
@@ -37,7 +39,7 @@ if(__name__ == "__main__"):
 
                     [ 1 ] - Tomar banho / Escovar dentes
                     [ 2 ] - Fazer café
-                    [ 3 ] - Comprar café no caminho
+                    [ 3 ] - Comprar café
                     [ 4 ] - Tomar remédios
                     [ 5 ] - Ir trabalhar
                     ''')
@@ -50,6 +52,11 @@ if(__name__ == "__main__"):
                         elif resp == 2:
                             relogio.timeRun()
                             personagem.tomarCafe()
+                            break
+                        elif resp == 3:
+                            print('O seu café custou R$ 10,00 reais')
+                            personagem.dinheiro-=10
+                            print('\nQUE CAFÉ DELICIOSO!')
                             break
                         elif resp == 4:
                             relogio.timeRun()
@@ -81,11 +88,33 @@ if(__name__ == "__main__"):
                             ''')
                             resp = int(input('OPÇÃO SELECIONADA:  '))
                         if resp == 1:
-                            print('Bem na hora!\Por pouco você se atrasa!')
+                            if ((relogio.horas == 6) and (relogio.minutos < 50) ):
+                                print('Ainda está muito cedo! Você vai precisar aguardar um pouco.')
+                                break
+                            elif ((relogio.horas == 6) and (relogio.minutos >= 50) and (relogio.minutos <= 59)):
+                                print('Bem na hora! Por pouco você se atrasa!')
+                                print('Mas deu tudo certo!')
+                                sleep(1)
+                            elif ((relogio.horas == 7) and (relogio.minutos == 0)):
+                                print('Você chegou bem na hora!')
+                                sleep(1)
+                            elif ((relogio.horas == 7) and (relogio.minutos > 0) and (relogio.minutos <= 10)):
+                                print('Você chegou um pouco encima da hora, hein! Tome cuidado com isso!')
+                                sleep(1)
+                            elif ((relogio.horas == 7) and (relogio.minutos > 10) and (relogio.minutos <= 50)):
+                                print('Você chegou muuuuiiiittto atrasado. Se continuar assim vai ser demitido.')
+                                sleep(1)
+                            elif(relogio.horas>=8):
+                                print('Você viu as horas?')
+                                print('Assim não dá, né! Vai haver um desconto no seu salário, viu!')
+                                sleep(2)
+                                personagem.punido()
+                                
                   
-                            print('Mas deu tudo certo!')
+                            
                 
                             print('Agora chega de enrolação e... mãos à obra!')
+                            relogio.timeTurno()
            
                             n1 = 1010101010101010101001010
                             n2 = 1101010111101000010101000
@@ -133,21 +162,22 @@ if(__name__ == "__main__"):
         
                             print('Você é mesmo o cara, hein!')
                             print()
-                            if (personagem.higiene == False and personagem.lanchar == False):
+                            if ((personagem.higiene == False) and (personagem.lanchar_comer == False)):
                                     print('Você foi trabalhar sujo e com fome')
-                                    recebido *= 0.1
+                                    personagem.salario *= 0.1
                             elif (personagem.higiene == False):
                                     print("Como você estava sujo, você levou uma advertência.")
-                                    recebido *= 0.5
-                            elif (personagem.lanchar == False):
+                                    personagem.salario *= 0.5
+                            elif (personagem.lanchar_comer == False):
                                     print("Como você estava com fome, você não rendeu o esperado.")
-                                    recebido *= 0.3
+                                    personagem.salario *= 0.3
+                            elif (personagem.punicao == True):
+                                print('Como você chego depois das 8 perderá 30 reais em seu salário.')
+                                
                             print(f'Você recebeu {personagem.salario:.2f} reais pelo seu trabalho hoje.')
-                            print()
-                            for r in range(5):
-                                relogio.timeHoras()
-                            print(relogio)
+                            print()                       
                             print(personagem)
+                            print(relogio.verHoras())
                             print('''
                                 VAMOS PRA CASA?
                                 
@@ -155,6 +185,12 @@ if(__name__ == "__main__"):
                                 [ 2 ] - AINDA NÃO
                                 ''')
                             resp = int(input('OPÇÃO SELECIONADA:  '))
+                            while resp == 2:
+                                resp = int(input('OPÇÃO SELECIONADA:  '))
+                                relogio.timeRun()
+                                print(relogio)
+                                print('É melhor ir pra casa!')
+
                             if resp == 1:
                                 while True:
                                     for r in range(3):
@@ -193,16 +229,27 @@ if(__name__ == "__main__"):
                                         print(personagem)
                                         print()
                                         print('Opa! Boa tarde!')
+                                    
                                         print('Dormiu bem?')
                                         print('Temos a tarde inteira pela frente ainda!')
                                         print('Que tal escolher entre as opções abaixo!?')
+                                        
 
-                                        while relogio.horas < 16:
-                                            print(personagem)
-                                            print(relogio)
-                                            print('''
+                                        while True:
+                                            if relogio.horas < 22:
+                                                print(personagem)
+                                            elif relogio.horas > 22:
+                                                personagem.lanchar_comer = False
+                                                personagem.soneca = False
+                                                print(personagem)
+
+                                            relogio.verHoras()
+                                            print(f'''
+                                            SÃO: {relogio.verHoras()}
+
                                             VOCÊ ESTÁ EM CASA
                                             o que deseja fazer agora?
+
                                                 
                                             [ 1 ] - Tirar uma soneca
                                             [ 2 ] - Ir à academia
@@ -210,6 +257,9 @@ if(__name__ == "__main__"):
                                             [ 4 ] - opções de lazer
                                             [ 5 ] - Fazer tarefas da escola
                                             [ 6 ] - Tomar o café da tarde
+                                            [ 7 ] - Curso Blue Edtech (A partir das 19h)
+                                            [ 8 ] - Jantar
+                                            [ 9 ] -             IR DORMIR
                                             ''')
                                             resp = int(input('OPÇÃO SELECIONADA:  '))
                                             if resp == 1:
@@ -371,6 +421,12 @@ if(__name__ == "__main__"):
                                                                 print('Você não possui dinheiro o suficiente. Tente assistir a outro filme.')
                                                         if resp == 4:
                                                             break
+                                                elif resp == 4:
+                                                    print('Ótima escolha!')
+                                                    sleep(1)
+                                                    print('A meditação faz muito bem pra gente!')
+                                                    sleep(1)
+                                                    relogio.timeHoras()
 
                                                 elif resp == 2:
                                                     print('Isso aí!')
@@ -423,25 +479,145 @@ if(__name__ == "__main__"):
                                                     VOCÊ DESEJA
                                                     [ 1 ] Comprar café na padaria
                                                     [ 2 ] Fazer café em casa
-                                                    [ 5 ] Não quero tomar café
+                                                    [ 3 ] Voltar
                                                     ''')
-                                                    resp = int(input('LAZER ESCOLHIDO:  '))
+                                                    resp = int(input('OPÇÃO ESCOLHIDA:  '))
                                                     if resp == 1:
                                                         if personagem.dinheiro >= 10:
                                                             personagem.dinheiro -= 10
-                                                            relogio.timeRun()
                                                             print('O café estava mesmo delicioso!')
+                                                            relogio.timeRun()
+                                                            break
+                                                            
                                                         elif personagem.dinheiro < 10:
                                                             print(f'Você não tem dinheiro o suficiente para pagar o café.')
                                                             print(f'O café custa R$ 10,00 reais e você possui {personagem.dinheiro}')
-                                                    if resp == 2:
+                                                    elif resp == 2:
                                                         personagem.dispensa -= 1
                                                         relogio.timeRun()
                                                         print('Você preparou um café muito bom, hein! Parabéns!!!')
+                                                        break
                                                     if resp == 3:
                                                         break
-                                        while relogio.horas < 16:
-                                            print(relogio.horas)               
+                                            elif resp == 7:
+                                                if relogio.horas >= 19:
+                                                    if relogio.horas == 19:
+                                                        print('Professor Vini: -Seja muito bem vido!')
+                                                        sleep(1)
+                                                        print('Professor Thiago: -A aula de hoje está cheia de conteúdo novo!')
+                                                        sleep(1)
+                                                        print('Bora lá, então!?')
+                                                        print('Estudando.')
+                                                        sleep(0.5)
+                                                        print('Estudando..')
+                                                        sleep(0.5)
+                                                        print('Estudando...')
+                                                        sleep(0.5)
+                                                        print('Estudando....')
+                                                        sleep(0.5)
+                                                        print('Hora do intervalo')
+                                                        sleep(0.5)
+                                                        print('Estudando.')
+                                                        sleep(0.5)
+                                                        print('Estudando..')
+                                                        sleep(0.5)
+                                                    elif relogio.horas > 19:
+                                                    
+                                                        print('Professor Thiago: -Olha só, você chegou muito atrasado!')
+                                                        sleep(2)
+                                                        print('Professor Vini: -Vai ter que assistir a gravação do momento que perdeu até aqui, no portal!')
+                                                        sleep(2)
+                                                        print('Professor Thiago: E já perdeu o pool também! Não deixa isso acontecer amanhã.')
+                                                        sleep(1)
+                                                        print('Bora pra aula!')
+                                                        sleep(0.5)
+                                                        print('Estudando.')
+                                                        sleep(0.5)
+                                                        print('Estudando..')
+                                                        sleep(0.5)
+                                                        print('Estudando...')
+                                                        sleep(0.5)
+                                                        print('Estudando....')
+                                                        sleep(0.5)
+                                                        print('Hora do intervalo')
+                                                        sleep(0.5)
+                                                        print('Estudando.')
+                                                        sleep(0.5)
+                                                        print('Estudando..')
+                                                        sleep(0.5)
+                                                    print()
+                                                    personagem.refeicao = False
+                                                    personagem.dormir = False
+
+                                                    relogio.timeHoras()
+                                                    relogio.timeHoras()
+                                                    relogio.timeHoras()
+                                                    relogio.timeHoras()
+                                                    print('Nossa, acabou muito rápido!')
+                                                    sleep(1)
+                                                    print('O curso de hoje estava ótimo, hein!')
+                                                    sleep(1)
+                                                    print('Aprendemos sobre listas, tuplas e dicionários')
+                                                    sleep(1)
+                                                    print('Agora é só refazers os exercícios para apreender tudo.\n')
+                                                    sleep(1)
+                                                    personagem.lanchar_comer = False
+                                                    personagem.soneca = False
+
+                                                    
+
+
+                                                elif relogio.horas<19:
+                                                    print('Ainda não está na hora do curso.')
+                                                    sleep(0.5)
+                                                    print('o professor Thiago ainda não está na sala, então não tem como você entrar.')
+                                                    sleep(1)
+                                                    print('Tente novamente à partir das 19 horas')
+                                                    sleep(1)
+                                            elif resp == 8:
+                                                if relogio.horas >= 23:
+                                                    print('Bora jantar!?')
+                                                    sleep(1)
+                                                    print('Hum.... Tem um escondidinho de carne na geladeira, vai ser ele mesmo!')
+                                                    sleep(1)
+                                                    print('que jantar delicioso!')
+                                                    sleep(2)
+
+                                                if relogio.horas < 23:
+                                                    print('Ah, para!')
+                                                    print('Você ainda não está com fome, vai! kkkk')
+                                                    sleep(2)
+                                        
+                                            elif resp == 9:
+                                                if relogio.horas >= 23:
+                                                    print('Nossa, o dia hoje foi maravilhoso!')
+                                                    sleep(1)
+                                                    print('Deu pra fazer muita coisa boa.')
+                                                    sleep(1)
+                                                    print('Ahhhhhhh, que sono!')
+                                                    sleep(1)
+                                                    print('Boa noite!')
+                                                    sleep(1)
+                                                    print('Até amanhã!')
+                                                    sleep(1)
+                                                    print('''
+
+                                                    ===========         =           =            =
+                                                    =                   =           =  =      =  =
+                                                    =                   =           =    =  =    =
+                                                    ===========         =           =     =      =
+                                                    =                   =           =            =    
+                                                    =                   =           =            = 
+                                                    =                   =           =            =
+
+
+                                                    ''')
+                                                    quit()
+                                                elif relogio.horas < 23:
+                                                    print('Ops! ')
+                                                    print('Você ainda não está com sono e você precisa estudar até as 23.')
+                                                    print('Então...')
+                                                    print('Vê se para de preguiça e vai fazer alguma coisa que não seja dormir. kkkkk')
 
 
 
