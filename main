@@ -54,6 +54,7 @@ if(__name__ == "__main__"):
                             personagem.tomarCafe()
                             break
                         elif resp == 3:
+                            relogio.timeRun()
                             print('O seu café custou R$ 10,00 reais')
                             personagem.dinheiro-=10
                             print('\nQUE CAFÉ DELICIOSO!')
@@ -239,8 +240,7 @@ if(__name__ == "__main__"):
                                             if relogio.horas < 22:
                                                 print(personagem)
                                             elif relogio.horas > 22:
-                                                personagem.lanchar_comer = False
-                                                personagem.soneca = False
+                                                pass
                                                 print(personagem)
 
                                             relogio.verHoras()
@@ -266,7 +266,6 @@ if(__name__ == "__main__"):
                                                 personagem.tirarSoneca()
                                                 relogio.timeHoras()
                                                 sleep(2)
-                                                print(personagem)
                                                 print()
                                             elif resp == 2:
                                                 print('Isso aí, vamos malhar!')
@@ -501,7 +500,7 @@ if(__name__ == "__main__"):
                                                         break
                                             elif resp == 7:
                                                 if relogio.horas >= 19:
-                                                    if relogio.horas == 19:
+                                                    if (relogio.horas >= 19) and (relogio.minutos <= 10):
                                                         print('Professor Vini: -Seja muito bem vido!')
                                                         sleep(1)
                                                         print('Professor Thiago: -A aula de hoje está cheia de conteúdo novo!')
@@ -521,7 +520,7 @@ if(__name__ == "__main__"):
                                                         sleep(0.5)
                                                         print('Estudando..')
                                                         sleep(0.5)
-                                                    elif relogio.horas > 19:
+                                                    elif (relogio.horas >= 19) and (relogio.minutos > 10):
                                                     
                                                         print('Professor Thiago: -Olha só, você chegou muito atrasado!')
                                                         sleep(2)
@@ -546,8 +545,8 @@ if(__name__ == "__main__"):
                                                         print('Estudando..')
                                                         sleep(0.5)
                                                     print()
-                                                    personagem.refeicao = False
-                                                    personagem.dormir = False
+
+
 
                                                     relogio.timeHoras()
                                                     relogio.timeHoras()
@@ -561,7 +560,7 @@ if(__name__ == "__main__"):
                                                     sleep(1)
                                                     print('Agora é só refazers os exercícios para apreender tudo.\n')
                                                     sleep(1)
-                                                    personagem.lanchar_comer = False
+                                                    personagem.refeicao = False
                                                     personagem.soneca = False
 
                                                     
@@ -575,13 +574,18 @@ if(__name__ == "__main__"):
                                                     print('Tente novamente à partir das 19 horas')
                                                     sleep(1)
                                             elif resp == 8:
-                                                if relogio.horas >= 23:
+                                                if relogio.horas >= 17:
+                                                    relogio.timeRun()
+                                                    personagem.refeicao = True
+                                                    personagem.soneca = False
                                                     print('Bora jantar!?')
                                                     sleep(1)
                                                     print('Hum.... Tem um escondidinho de carne na geladeira, vai ser ele mesmo!')
                                                     sleep(1)
                                                     print('que jantar delicioso!')
                                                     sleep(2)
+                                                    
+
 
                                                 if relogio.horas < 23:
                                                     print('Ah, para!')
@@ -589,7 +593,9 @@ if(__name__ == "__main__"):
                                                     sleep(2)
                                         
                                             elif resp == 9:
-                                                if relogio.horas >= 23:
+                                                if relogio.horas >= 23 and personagem.refeicao == True:
+                                                    personagem.refeicao = True
+                                                    personagem.soneca = True
                                                     print('Nossa, o dia hoje foi maravilhoso!')
                                                     sleep(1)
                                                     print('Deu pra fazer muita coisa boa.')
@@ -618,45 +624,11 @@ if(__name__ == "__main__"):
                                                     print('Você ainda não está com sono e você precisa estudar até as 23.')
                                                     print('Então...')
                                                     print('Vê se para de preguiça e vai fazer alguma coisa que não seja dormir. kkkkk')
-
-
-
-
-                                                        
-
-
-
-
-                                                    
-                                            
-                                                
-
-
-                                                        
-
-
-
-
-
-                                                        
-
-                                                    
-
-
-
-
-
-
-
-
-                                    
-
-
-                                                    
-
-                                        
-                                        
-                                        
+                                                elif relogio.horas >= 23 and personagem.refeicao == False:
+                                                    print('Você está com muita fome para dormir.')
+                                                    sleep(1)
+                                                    print('Jante primeiro.')
+                                                    sleep(0.5)
 
             if resp == 2:
                 relogio.timeRun()
@@ -666,3 +638,5 @@ if(__name__ == "__main__"):
                 for cont in range(1,10):
                     print(cont)
                     sleep(0.6)
+            else:
+                print('Opção inválida!')
