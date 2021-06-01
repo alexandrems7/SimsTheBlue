@@ -58,5 +58,4 @@ class Relogio:
             soma = self.minutos - 60
             self.horas +=1
             self.minutos = soma
-        
-        
+ 
