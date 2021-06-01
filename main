@@ -27,11 +27,14 @@ if(__name__ == "__main__"):
             resp = int(input('OPÇÃO SELECIONADA:  '))
             
             if resp == 1:
+                
+
                 print(f'Olha só quem acordou!\n')
                 while True:
                     personagem.dormir = False
                     print('='*50)
                     print(f'\n{relogio}\n')
+                    
                     print(personagem)
                     print('='*50)
                     print('''
@@ -66,8 +69,7 @@ if(__name__ == "__main__"):
                         elif resp == 5:
                             personagem.recebeSalario()
                             for r in range(3):
-                                relogio.timeRun()
-                                
+                                relogio.timeRun()                          
                             
                             print('Bem vindo ao trabalho!')
                            
@@ -87,7 +89,19 @@ if(__name__ == "__main__"):
                             [ 1 ] - SIM
                             [ 2 ] - AINDA NÃO
                             ''')
-                            resp = int(input('OPÇÃO SELECIONADA:  '))
+                            while (resp != 1) and (resp != 2):
+                                resp = int(input('OPÇÃO SELECIONADA:  '))
+                                if (resp != 1) and (resp != 2):
+                                    print('Opção inválida!')
+                            if resp == 2:
+                                break
+
+                            
+                                
+                        else:
+                            print('Opção inválida!')
+                            break
+                              
                         if resp == 1:
                             if ((relogio.horas == 6) and (relogio.minutos < 50) ):
                                 print('Ainda está muito cedo! Você vai precisar aguardar um pouco.')
